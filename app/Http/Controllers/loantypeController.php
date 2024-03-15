@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use App\Models\loantype;
 use App\Http\Controllers\Controller;
-use App\Models\userrole;
 use DB;
 
-class userroleController extends Controller
+class loantypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,8 @@ class userroleController extends Controller
      */
     public function index()
     {
-        $users = DB::table('userrole')->get();
-        return view('userrole.viewrole', ['users' => $users]);
+        $users = DB::table('loantype')->get();
+        return view('loantype.viewloan', ['users' => $users]);
     }
 
     /**
@@ -28,11 +27,10 @@ class userroleController extends Controller
      */
     public function create(request $request):RedirectResponse
     {
-        $userrole = new userrole;
-        $userrole->role = $request->role;
-        $userrole->save();
-        return redirect('/viewrole');
-       
+        $loantype = new loantype;
+        $loantype->loanname = $request->loanname;
+        $loantype->save();
+        return redirect('/viewloan');
     }
 
     /**
@@ -54,7 +52,7 @@ class userroleController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -65,9 +63,7 @@ class userroleController extends Controller
      */
     public function edit($id)
     {
-       //$user =  DB::table('userrole')->get($id);
-       $user = DB::select('select * from userrole where id=?',[$id]);
-        return view('userrole.editrole',['user'=>$user]);
+        //
     }
 
     /**
@@ -79,13 +75,7 @@ class userroleController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
-        // $role = $request->input('role');
-        //  DB::update('update userrole set role=? where id=?',[$role,$id]);
-        $project = userrole::findOrFail($id);
-        $project->role = $request->role;
-        $project->save();
-    return  redirect('/viewrole');
+        //
     }
 
     /**
@@ -96,7 +86,6 @@ class userroleController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('userrole')->delete($id);
-         return redirect('/viewrole');
+        //
     }
 }

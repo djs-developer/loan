@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userroleController;
+use App\Http\Controllers\loantypeController;
+//use DB;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +27,20 @@ Route::get('/addrole',function(){
 
 Route::controller(userroleController::class)->group(function () {
     Route::post('/processaddrole', 'create');
-    
+    Route::get('/viewrole','index');
+    Route::get('/delete/{id}','destroy');
+    Route::get('/edit/{id}','edit');
+    Route::post('/update/{id}','update');
+});
+
+Route::get('/addloan',function(){
+    return view('loantype/addloan');
+});
+
+Route::controller(loantypeController::class)->group(function () {
+    Route::post('/loanprocess', 'create');
+    Route::get('/viewloan','index');
+    // Route::get('/delete/{id}','destroy');
+    // Route::get('/edit/{id}','edit');
+    // Route::post('/update/{id}','update');
 });
