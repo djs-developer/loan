@@ -11,18 +11,18 @@
         <thead >
         <tr>
             <th>id</th>
-            <th>Loan Name</th>
+            <th>State Name</th>
             <th>Action</th>
         </tr>
         </thead>
         <tr>
-            @foreach($loan as $loan)
+            @foreach($state as $state)
             <tr>
-            <td>{{$loan -> id}}</td>
-            <td>{{$loan -> loanname}}</td>
-            <td><a href="/editloan/{{$loan->id}}">Edit</a>
+            <td>{{$state -> id}}</td>
+            <td>{{$state -> statename}}</td>
+            <td><a href="/editstate/{{$state->id}}">Edit</a>
                 |
-               <a href="/deleteloan/{{$loan->id}}"> delete</a></td>
+               <a href="/deletestate/{{$state->id}}"> delete</a></td>
             </tr>
             @endforeach
         </tr>

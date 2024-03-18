@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\loantype;
+use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use DB;
 
-class loantypeController extends Controller
+
+class userController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,9 @@ class loantypeController extends Controller
      */
     public function index()
     {
-        $loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $loan]);
+       
+        $user = DB::table('users')->get();
+        return view('user.viewuser', ['user' => $user]);
     }
 
     /**
@@ -26,12 +29,14 @@ class loantypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(request $request):RedirectResponse
+    public function create(request $request):redirectResponse
     {
-        $loantype = new loantype;
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-        return redirect('/viewloan');
+        $user = new user;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->Password);
+        $user->save();
+        return redirect('/viewuser');
     }
 
     /**
@@ -53,7 +58,7 @@ class loantypeController extends Controller
      */
     public function show($id)
     {
-       
+        //
     }
 
     /**
@@ -64,8 +69,8 @@ class loantypeController extends Controller
      */
     public function edit($id)
     {
-        $loan = DB::select('select * from loantype where id=?',[$id]);
-        return view('loantype.editloan',['loan'=>$loan]);
+        $user = DB::select('select * from users where id=?',[$id]);
+        return view('user.edituser',['user'=>$user]);
     }
 
     /**
@@ -77,10 +82,13 @@ class loantypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loantype = loantype::findOrFail($id);
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-    return  redirect('/viewloan');
+        $user = user::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->Password);
+        $user->save();
+    return  redirect('/viewuser');
+        
     }
 
     /**
@@ -91,8 +99,7 @@ class loantypeController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('loantype')->delete($id);
-       return redirect('/viewloan');
-       
+        $deleted = DB::table('users')->delete($id);
+       return redirect('/viewuser');
     }
 }

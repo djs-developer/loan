@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\loantype;
+use App\Models\documenttype;
 use App\Http\Controllers\Controller;
 use DB;
 
-class loantypeController extends Controller
+class documenttypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class loantypeController extends Controller
      */
     public function index()
     {
-        $loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $loan]);
+        $doctype = DB::table('documenttype')->get();
+        return view('documenttype.viewdocumenttype', ['doctype' => $doctype]);
     }
 
     /**
@@ -28,10 +28,10 @@ class loantypeController extends Controller
      */
     public function create(request $request):RedirectResponse
     {
-        $loantype = new loantype;
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-        return redirect('/viewloan');
+        $documenttype = new documenttype;
+        $documenttype->docname = $request->docname;
+        $documenttype->save();
+        return redirect('/viewdocument');
     }
 
     /**
@@ -53,7 +53,7 @@ class loantypeController extends Controller
      */
     public function show($id)
     {
-       
+        //
     }
 
     /**
@@ -64,8 +64,8 @@ class loantypeController extends Controller
      */
     public function edit($id)
     {
-        $loan = DB::select('select * from loantype where id=?',[$id]);
-        return view('loantype.editloan',['loan'=>$loan]);
+        $doctype = DB::select('select * from documenttype where id=?',[$id]);
+        return view('documenttype.editdocumenttype',['doctype'=>$doctype]);
     }
 
     /**
@@ -77,10 +77,10 @@ class loantypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loantype = loantype::findOrFail($id);
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-    return  redirect('/viewloan');
+        $doctype = documenttype::findOrFail($id);
+        $doctype->docname = $request->docname;
+        $doctype->save();
+    return  redirect('/viewdocument');
     }
 
     /**
@@ -91,8 +91,7 @@ class loantypeController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('loantype')->delete($id);
-       return redirect('/viewloan');
-       
+        $deleted = DB::table('documenttype')->delete($id);
+       return redirect('/viewdocument');
     }
 }

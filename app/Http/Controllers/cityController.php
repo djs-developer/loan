@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\loantype;
 use App\Http\Controllers\Controller;
+use App\Models\city;
+use App\Models\state;
 use DB;
 
-class loantypeController extends Controller
+class cityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +18,12 @@ class loantypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $loan]);
+    { 
+    $state = DB::table('city')
+            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
+            ->select('city.*', 'state.statename')
+            ->get();
+        return view('city.viewcity', ['city' => $state]);
     }
 
     /**
@@ -28,10 +33,13 @@ class loantypeController extends Controller
      */
     public function create(request $request):RedirectResponse
     {
-        $loantype = new loantype;
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-        return redirect('/viewloan');
+       
+        $city = new city;
+        $city->cityname = $request->cityname;
+        $city->state_id = $request->state_id;
+        $city->save();
+       
+        return redirect('/viewcity');
     }
 
     /**
@@ -51,7 +59,7 @@ class loantypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
        
     }
@@ -64,8 +72,14 @@ class loantypeController extends Controller
      */
     public function edit($id)
     {
-        $loan = DB::select('select * from loantype where id=?',[$id]);
-        return view('loantype.editloan',['loan'=>$loan]);
+        $city = DB::table('city')
+            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
+            ->select('city.*', 'state.statename')
+            
+            ->get();
+        $edit = DB::table('state')->get();
+        $city = DB::select('select * from city where id=?',[$id]);
+        return view('city.editcity',['city'=>$city,'edit'=>$edit]);
     }
 
     /**
@@ -77,10 +91,12 @@ class loantypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loantype = loantype::findOrFail($id);
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-    return  redirect('/viewloan');
+        $city = city::findOrFail($id);
+        $city->cityname = $request->cityname;
+        $city->state_id = $request->state_id;
+        $city->save();
+        //return "doinr..";
+        return  redirect('/viewcity');
     }
 
     /**
@@ -91,8 +107,7 @@ class loantypeController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('loantype')->delete($id);
-       return redirect('/viewloan');
-       
+        $deleted = DB::table('city')->delete($id);
+        return redirect('/viewcity');
     }
 }

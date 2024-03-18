@@ -11,18 +11,22 @@
         <thead >
         <tr>
             <th>id</th>
-            <th>Loan Name</th>
+            <th>Name</th>
+            <th>email</th>
+            <th>Password</th>
             <th>Action</th>
         </tr>
         </thead>
         <tr>
-            @foreach($loan as $loan)
+            @foreach($user as $user)
             <tr>
-            <td>{{$loan -> id}}</td>
-            <td>{{$loan -> loanname}}</td>
-            <td><a href="/editloan/{{$loan->id}}">Edit</a>
+            <td>{{$user -> id}}</td>
+            <td>{{$user -> name}}</td>
+            <td>{{$user -> email}}</td>
+            <td>{{$user -> password}}</td>
+            <td><a href="/edituser/{{$user->id}}">Edit</a>
                 |
-               <a href="/deleteloan/{{$loan->id}}"> delete</a></td>
+               <a href="/deleteuser/{{$user->id}}"> delete</a></td>
             </tr>
             @endforeach
         </tr>

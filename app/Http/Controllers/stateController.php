@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\loantype;
 use App\Http\Controllers\Controller;
+use App\Models\state;
 use DB;
 
-class loantypeController extends Controller
+class stateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class loantypeController extends Controller
      */
     public function index()
     {
-        $loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $loan]);
+        $state = DB::table('state')->get();
+        return view('state.viewstate', ['state' => $state]);
     }
 
     /**
@@ -28,10 +28,10 @@ class loantypeController extends Controller
      */
     public function create(request $request):RedirectResponse
     {
-        $loantype = new loantype;
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-        return redirect('/viewloan');
+        $state = new state;
+        $state->statename = $request->statename;
+        $state->save();
+        return redirect('/viewstate');
     }
 
     /**
@@ -53,7 +53,7 @@ class loantypeController extends Controller
      */
     public function show($id)
     {
-       
+        //
     }
 
     /**
@@ -64,8 +64,8 @@ class loantypeController extends Controller
      */
     public function edit($id)
     {
-        $loan = DB::select('select * from loantype where id=?',[$id]);
-        return view('loantype.editloan',['loan'=>$loan]);
+        $state = DB::select('select * from state where id=?',[$id]);
+        return view('state.editstate',['state'=>$state]);
     }
 
     /**
@@ -77,10 +77,10 @@ class loantypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $loantype = loantype::findOrFail($id);
-        $loantype->loanname = $request->loanname;
-        $loantype->save();
-    return  redirect('/viewloan');
+        $state = state::findOrFail($id);
+        $state->statename = $request->statename;
+        $state->save();
+    return  redirect('/viewstate');
     }
 
     /**
@@ -91,8 +91,7 @@ class loantypeController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('loantype')->delete($id);
-       return redirect('/viewloan');
-       
+        $deleted = DB::table('state')->delete($id);
+        return redirect('/viewstate');
     }
 }

@@ -16,13 +16,13 @@
         </tr>
         </thead>
         <tr>
-            @foreach($loan as $loan)
+            @foreach($doctype as $doctype)
             <tr>
-            <td>{{$loan -> id}}</td>
-            <td>{{$loan -> loanname}}</td>
-            <td><a href="/editloan/{{$loan->id}}">Edit</a>
+            <td>{{$doctype -> id}}</td>
+            <td>{{$doctype -> docname}}</td>
+            <td><a href="/editdoctype/{{$doctype->id}}">Edit</a>
                 |
-               <a href="/deleteloan/{{$loan->id}}"> delete</a></td>
+               <a href="/deletedoctype/{{$doctype->id}}"> delete</a></td>
             </tr>
             @endforeach
         </tr>
