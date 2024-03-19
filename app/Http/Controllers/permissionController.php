@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Models\permission;
 use App\Http\Controllers\Controller;
-use App\Models\city;
-use App\Models\state;
 use DB;
 
-class cityController extends Controller
+class permissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +16,9 @@ class cityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-    $state = DB::table('city')
-            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->select('city.*', 'state.statename')
-            ->get();
-        return view('city.viewcity', ['city' => $state]);
+    {
+        $permission = DB::table('permission')->get();
+        return view('permission.viewpermission', ['permission' => $permission]);
     }
 
     /**
@@ -33,13 +28,10 @@ class cityController extends Controller
      */
     public function create(request $request):RedirectResponse
     {
-       
-        $city = new city;
-        $city->cityname = $request->cityname;
-        $city->state_id = $request->state_id;
-        $city->save();
-       
-        return redirect('/viewcity');
+        $permission = new permission;
+        $permission->permission = $request->permission;
+        $permission->save();
+        return redirect('/viewpermission');
     }
 
     /**
@@ -59,9 +51,9 @@ class cityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-       
+        //
     }
 
     /**
@@ -72,14 +64,8 @@ class cityController extends Controller
      */
     public function edit($id)
     {
-        $city = DB::table('city')
-            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->select('city.*', 'state.statename')
-            
-            ->get();
-        $edit = DB::table('state')->get();
-        $city = DB::select('select * from city where id=?',[$id]);
-        return view('city.editcity',['city'=>$city,'edit'=>$edit]);
+        $permission = DB::select('select * from permission where id=?',[$id]);
+        return view('permission.editpermission',['permission'=>$permission]);
     }
 
     /**
@@ -91,12 +77,10 @@ class cityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $city = city::findOrFail($id);
-        $city->cityname = $request->cityname;
-        $city->state_id = $request->state_id;
-        $city->save();
-       
-        return  redirect('/viewcity');
+        $permission = permission::findOrFail($id);
+        $permission->permission = $request->permission;
+        $permission->save();
+        return  redirect('/viewpermission');
     }
 
     /**
@@ -107,7 +91,7 @@ class cityController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('city')->delete($id);
-        return redirect('/viewcity');
+        $deleted = DB::table('permission')->delete($id);
+       return redirect('/viewpermission');
     }
 }

@@ -43,6 +43,26 @@
                 <td><a href="/adduser">add</a></td>
                 <td><a href="/viewuser">view</a></td>
             </tr>
+            <tr>
+                <td>userDetails</td>
+                <td><a href="/adduserdetails">add</a></td>
+                <td><a href="/viewuserdetails">view</a></td>
+            </tr>
+            <tr>
+                <td>rolemapping</td>
+                <td><a href="/addmaping">add</a></td>
+                <td><a href="/viewmapping">view</a></td>
+            </tr>
+            <tr>
+                <td>permission</td>
+                <td><a href="/addpermission">add</a></td>
+                <td><a href="/viewpermission">view</a></td>
+            </tr>
+            <tr>
+                <td>Role permission</td>
+                <td><a href="/addrolepermission">add</a></td>
+                <td><a href="/viewrolepermission">view</a></td>
+            </tr>
         </tbody>
     </table>
 </body>

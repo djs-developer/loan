@@ -17,7 +17,8 @@ class userdetailsController extends Controller
      */
     public function index()
     {
-        //
+        $details = DB::table('userdetails')->get();
+        return view('userdetails.viewdetails', ['details' => $details]);
     }
 
     /**
@@ -28,10 +29,35 @@ class userdetailsController extends Controller
     public function create(request $request):RedirectResponse
     {
         $userdetails = new userdetails;
-        $userdetails->name['Date'] = $request->date;
-        $userdetails->name['Mobile'] = $request->mobile;
-        $userdetails->name['Address'] = $request->address;
-        $userdetails->save();
+        $date = $request->input('date');
+        $mobile = $request->input('mobile');
+        $address = $request->input('address');
+    //    $date = DB::insert("insert into userdetails (name,value,user_id) values(?,?,?)",['date',$date,'1']);
+    //    $date =  DB::insert("insert into userdetails (name,value,user_id) values(?,?,?)",['mobile',$mobile,'1']);
+    //    $date = DB::insert("insert into userdetails (name,value,user_id) values(?,?,?)",['address',$address,'1']);
+    // DB::table('userdetails')->insert([
+    //     'name' => 'Date',
+    //     'value' => $date,
+    //     'user_id' => 1,
+    // ]);
+    // DB::table('userdetails')->insert([
+    //     'name' => 'Mobile',
+    //     'value' => $mobile,
+    //     'user_id' => 1,
+    // ]);
+    // DB::table('userdetails')->insert([
+    //     'name' => 'Address',
+    //     'value' => $address,
+    //     'user_id' => 1,
+    // ]);
+    $data = [
+        // An array of data for multiple records
+        ['name' => 'Date', 'value' => $date,'user_id' =>1],
+        ['name' => 'Mobile', 'value' => $mobile,'user_id' =>1],
+        ['name' => 'Address', 'value' => $address,'user_id' =>1],
+    ];
+    DB::table('userdetails')->insert($data);
+
         return redirect('/viewuserdetails');
     }
 
@@ -88,6 +114,7 @@ class userdetailsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = DB::table('userdetails')->delete($id);
+        return redirect('/viewuserdetails');
     }
 }

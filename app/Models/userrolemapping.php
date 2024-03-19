@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\userrole;
+use App\Models\users;
 
-class userrole extends Model
+class userrolemapping extends Model
 {
     use HasFactory;
-    public $table = 'userrole';
-    protected $fillable = ['role'];
+    public $table = 'userrolemapping';
+
    
 }

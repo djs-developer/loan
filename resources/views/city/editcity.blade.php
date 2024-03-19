@@ -20,7 +20,7 @@
                 <label for=""><b>state Name:</b></label>
                 <select name="state_id" id="state_id">
                      @foreach($edit as $edit)
-                        <option value="{{$edit->id}}" data-id="{{$edit->id}}">{{$edit->statename}}</option>
+                        <option value="{{$edit->id}}" {{$city[0]->state_id == $edit->id ? 'selected' : ''}}>{{$edit->statename}}</option>
                     @endforeach
                 </select>
             </div>

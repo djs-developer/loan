@@ -8,7 +8,12 @@ use App\Http\Controllers\cityController;
 use App\Http\Controllers\documenttypeController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\userdetailsController;
+use App\Http\Controllers\userrolemappingController;
+use App\Http\Controllers\permissionController;
+use App\Http\Controllers\rolepermissionController;
 use App\Models\state;
+use App\Models\userrole;
+use App\Models\userrolemapping;
 //use DB;
 use Illuminate\Http\Request;
 
@@ -107,7 +112,47 @@ Route::get('/adduserdetails',function(){
 Route::controller(userdetailsController::class)->group(function () {
     Route::post('/userdprocess', 'create');
     Route::get('/viewuserdetails','index');
-    // Route::get('/deleteuser/{id}','destroy');
+    Route::get('/deletedetails/{id}','destroy');
     // Route::get('/edituser/{id}','edit');
     // Route::post('/updateuser/{id}','update');
+});
+
+Route::get('/addmaping',function(){
+    $role = DB::table('userrole')->get();
+    $users = DB::table('users')->get();
+return view('rolemapping/addmapping',['role'=>$role,'users'=>$users]);
+});
+
+Route::controller(userrolemappingController::class)->group(function () {
+Route::post('/mappingprocess', 'create');
+Route::get('/viewmapping','index');
+Route::get('/deletemapping/{id}','destroy');
+Route::get('/editmapping/{id}','edit');
+Route::post('/updatemapping/{id}','update');
+});
+
+Route::get('/addpermission',function(){
+return view('permission/addpermission');
+});
+
+Route::controller(permissionController::class)->group(function () {
+    Route::post('/permissionprocess', 'create');
+    Route::get('/viewpermission','index');
+    Route::get('/deletepermission/{id}','destroy');
+    Route::get('/editpermission/{id}','edit');
+    Route::post('/updatepermission/{id}','update');
+});
+
+Route::get('/addrolepermission',function(){
+    $rolemapping = DB::table('userrolemapping')->get();
+    $permission = DB::table('permission')->get();
+    return view('rolepermission/addrolepermission',['rolemapping'=>$rolemapping,'permission'=>$permission]);
+});
+
+Route::controller(rolepermissionController::class)->group(function () {
+    Route::post('/rolepermissionprocess', 'create');
+    Route::get('/viewrolepermission','index');
+    Route::get('/deleterolepermission/{id}','destroy');
+    Route::get('/editrolepermission/{id}','edit');
+    Route::post('/updaterolepermission/{id}','update');
 });
