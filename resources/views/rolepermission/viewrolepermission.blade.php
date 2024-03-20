@@ -12,7 +12,7 @@
         <tr>
             <th>id</th>
             <th>permission</th>
-            <th> Name-role</th>
+            <th>Name-role</th>
             <th>Action</th>
         </tr>
         </thead>

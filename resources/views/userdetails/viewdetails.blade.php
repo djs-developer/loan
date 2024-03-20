@@ -11,7 +11,7 @@
         <thead >
         <tr>
             <th>id</th>
-            <th>Name</th>
+            <th>Field Name</th> 
             <th>Value</th>
             <th>User_id</th>
             <th>Action</th>
@@ -24,7 +24,7 @@
             <td>{{$details -> name}}</td>
             <td>{{$details -> value}}</td>
             <td>{{$details -> user_id}}</td>
-            <td><a href="/edituser/{{$details->id}}">Edit</a>
+            <td><a href="/edituserdetails/{{$details->user_id}}">Edit</a>
                 |
                <a href="/deletedetails/{{$details->id}}"> delete</a></td>
             </tr>

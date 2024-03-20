@@ -15,7 +15,7 @@
                 <label for=""><b>Mapping_id:</b></label>
                 <select name="mapping_id" id="mapping_id">
                      @foreach($rolemapping as $rolemapping)
-                        <option value="{{$rolemapping->id}}" data-id="{{$rolemapping->id}}">{{$rolemapping->id}} </option>
+                        <option value="{{$rolemapping->id}}" {{$rolepermission[0]->mapping_id == $rolemapping->id ? 'selected' : ''}} >{{$rolemapping->id}} </option>
                      @endforeach
                 </select>   
         </div>
@@ -24,7 +24,7 @@
                 <label for=""><b>Permission Name:</b></label>
                 <select name="permission_id" id="permission_id">
                      @foreach($permission as $permission)
-                        <option value="{{$permission->id}}" data-id="{{$permission->id}}">{{$permission->permission}}</option>
+                        <option value="{{$permission->id}}" {{$rolepermission[0]->permission_id == $permission->id ? 'selected' : ''}}>{{$permission->permission}}</option>
                      @endforeach
                 </select>    
         </div>

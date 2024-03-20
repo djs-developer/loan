@@ -14,6 +14,8 @@ use App\Http\Controllers\rolepermissionController;
 use App\Models\state;
 use App\Models\userrole;
 use App\Models\userrolemapping;
+use App\Models\userdetails;
+use App\Http\Resources\userdetailsCollection;
 //use DB;
 use Illuminate\Http\Request;
 
@@ -113,8 +115,8 @@ Route::controller(userdetailsController::class)->group(function () {
     Route::post('/userdprocess', 'create');
     Route::get('/viewuserdetails','index');
     Route::get('/deletedetails/{id}','destroy');
-    // Route::get('/edituser/{id}','edit');
-    // Route::post('/updateuser/{id}','update');
+    Route::get('/edituserdetails/{id}','edit');
+    Route::post('/updateuser/{id}','update');
 });
 
 Route::get('/addmaping',function(){

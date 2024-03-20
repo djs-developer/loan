@@ -20,5 +20,42 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+
+
+        
+//         $person = person::create();
+
+// $attribute = CustomAttribute::create([
+//     'name' => 'date',
+//     'label' => 'date',
+//     'type' => 'date',
+//     'column_name' => 'date_value',
+// ]);
+
+// $attribute = CustomAttribute::create([
+//     'name' => 'mobile',
+//     'label' => 'mobile',
+//     'type' => 'integer',
+//     'column_name' => 'integer_value',
+// ]);
+
+// $attribute = CustomAttribute::create([
+//     'name' => 'address',
+//     'label' => 'address',
+//     'type' => 'string',
+//     'column_name' => 'string_value',
+// ]);
+
+
+// $value = Value::create([
+//     'date_value' => $attribute->date_value,
+//     $attribute->column_name => '29-10-2024',
+//     'custom_attribute_id' => $attribute->id,
+// ]);
+
+// $userdetails->values()->saveMany([$value]);
+       
     }
+    
 }

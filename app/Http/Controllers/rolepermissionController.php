@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
-use App\Models\user;
-// use App\Models\userrole;
+use App\Models\User;
+use App\Models\userrole;
 use App\Models\rolepermission;
 use DB;
 
@@ -26,7 +26,7 @@ class rolepermissionController extends Controller
         ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
         ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')
         ->join('users', 'users.id', '=', 'userrolemapping.user_id')
-        ->select('rolepermission.*', 'permission.permission','userrolemapping.id','userrole.role','users.name')
+        ->select('rolepermission.*', 'permission.permission','userrole.role','users.name')
         ->get();
         return view('rolepermission.viewrolepermission', ['rolepermission' => $rolepermission]);
     }
@@ -76,17 +76,17 @@ class rolepermissionController extends Controller
      */
     public function edit($id)
     {
-        // $rolepermission = DB::table('rolepermission')
+        // $rrolepermission = DB::table('rolepermission')
         // ->join('userrolemapping', 'userrolemapping.id', '=', 'rolepermission.mapping_id')// joining the contacts table , where user_id and contact_user_id are same
         // ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
         // // ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')
         // // ->join('users', 'users.id', '=', 'userrolemapping.user_id')
-        // ->select('rolepermission.*', 'permission.permission','userrolemapping.id')
+        // ->select('rolepermission.*', 'permission.permission')
         // ->get();
-        // $permission = DB::table('permission')->get();
-        // $rolemapping = DB::table('userrolemapping')->get();
-        // $rrolepermission = DB::select('select * from rolepermission where id=?',[$id]);
-        // return view('rolepermission.editrolepermission',['rolepermission'=> $rrolepermission,'permission'=>$permission,'rolemapping'=>$rolemapping]);
+        $permission = DB::table('permission')->get();
+        $rolemapping = DB::table('userrolemapping')->get();
+        $rrolepermission = DB::select('select * from rolepermission where id=?',[$id]);
+        return view('rolepermission.editrolepermission',['rolepermission'=> $rrolepermission,'permission'=>$permission,'rolemapping'=>$rolemapping]);
     }
 
     /**
@@ -102,6 +102,7 @@ class rolepermissionController extends Controller
         $rolepermission->mapping_id = $request->mapping_id;
         $rolepermission->permission_id = $request->permission_id;
         $rolepermission->save();
+        return redirect('/viewrolepermission');
     }
 
     /**
