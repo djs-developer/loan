@@ -9,6 +9,12 @@ class city extends Model
 {
     use HasFactory;
     public $table = 'city';
-    //protected $fillable = ['cityname'];
-   // protected $fillable = ['state_id']
+    protected $fillable = ['cityname'];
+    protected $primaryKey = 'id';
+
+    public function state()
+    {
+        return $this->hasOne(state::class,'id','state_id');
+    }
+   
 }

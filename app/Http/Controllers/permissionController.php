@@ -17,8 +17,9 @@ class permissionController extends Controller
      */
     public function index()
     {
+        $view = permission::all();
         $permission = DB::table('permission')->get();
-        return view('permission.viewpermission', ['permission' => $permission]);
+        return view('permission.viewpermission', ['permission' => $view]);
     }
 
     /**
@@ -64,8 +65,9 @@ class permissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = DB::select('select * from permission where id=?',[$id]);
-        return view('permission.editpermission',['permission'=>$permission]);
+        $edit = permission::where('id', $id)->get();
+       // $permission = DB::select('select * from permission where id=?',[$id]);
+        return view('permission.editpermission',['permission'=>$edit]);
     }
 
     /**
@@ -91,7 +93,9 @@ class permissionController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('permission')->delete($id);
+        $deleted=permission::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('permission')->delete($id);
        return redirect('/viewpermission');
     }
 }

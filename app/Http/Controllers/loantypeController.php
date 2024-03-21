@@ -17,8 +17,9 @@ class loantypeController extends Controller
      */
     public function index()
     {
-        $loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $loan]);
+        $view = loantype::all();
+        //$loan = DB::table('loantype')->get();
+        return view('loantype.viewloan', ['loan' => $view]);
     }
 
     /**
@@ -64,8 +65,9 @@ class loantypeController extends Controller
      */
     public function edit($id)
     {
-        $loan = DB::select('select * from loantype where id=?',[$id]);
-        return view('loantype.editloan',['loan'=>$loan]);
+        $edit = loantype::where('id', $id)->get();
+        //$loan = DB::select('select * from loantype where id=?',[$id]);
+        return view('loantype.editloan',['loan'=>$edit]);
     }
 
     /**
@@ -91,7 +93,9 @@ class loantypeController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('loantype')->delete($id);
+        $deleted=loantype::find($id);
+        $deleted->delete();
+      // $deleted = DB::table('loantype')->delete($id);
        return redirect('/viewloan');
        
     }

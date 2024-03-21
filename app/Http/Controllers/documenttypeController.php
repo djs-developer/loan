@@ -17,8 +17,9 @@ class documenttypeController extends Controller
      */
     public function index()
     {
-        $doctype = DB::table('documenttype')->get();
-        return view('documenttype.viewdocumenttype', ['doctype' => $doctype]);
+        $view = documenttype::all();
+        //$doctype = DB::table('documenttype')->get();
+        return view('documenttype.viewdocumenttype', ['doctype' => $view]);
     }
 
     /**
@@ -64,8 +65,9 @@ class documenttypeController extends Controller
      */
     public function edit($id)
     {
-        $doctype = DB::select('select * from documenttype where id=?',[$id]);
-        return view('documenttype.editdocumenttype',['doctype'=>$doctype]);
+        $edit = documenttype::where('id', $id)->get();
+       // $doctype = DB::select('select * from documenttype where id=?',[$id]);
+        return view('documenttype.editdocumenttype',['doctype'=>$edit]);
     }
 
     /**
@@ -91,7 +93,9 @@ class documenttypeController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('documenttype')->delete($id);
+        $deleted=documenttype::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('documenttype')->delete($id);
        return redirect('/viewdocument');
     }
 }

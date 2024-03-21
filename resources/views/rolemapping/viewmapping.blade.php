@@ -18,16 +18,16 @@
         </thead>
         <tr>
             @foreach($mapping as $mapping)
-           
+            
             <tr>
             <td>{{$mapping -> id}}</td>
-            <td>{{$mapping -> role}}</td>
-            <td>{{$mapping -> name}}</td>
+            <td>{{$mapping ->userrole->role}}</td>
+            <td>{{$mapping ->user-> name}}</td>
             <td><a href="/editmapping/{{$mapping->id}}">Edit</a>
                 |
                <a href="/deletemapping/{{$mapping->id}}"> delete</a></td>
             </tr>
-           
+          
             @endforeach
         </tr>
     </table>

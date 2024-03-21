@@ -16,9 +16,10 @@ class stateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $state = DB::table('state')->get();
-        return view('state.viewstate', ['state' => $state]);
+    {   
+        $stateview = state::all();
+        //$state = DB::table('state')->get();
+        return view('state.viewstate', ['state' => $stateview]);
     }
 
     /**
@@ -64,8 +65,9 @@ class stateController extends Controller
      */
     public function edit($id)
     {
-        $state = DB::select('select * from state where id=?',[$id]);
-        return view('state.editstate',['state'=>$state]);
+        $stateedit = state::where('id', $id)->get();
+        //$state = DB::select('select * from state where id=?',[$id]);
+        return view('state.editstate',['state'=>$stateedit]);
     }
 
     /**
@@ -80,7 +82,7 @@ class stateController extends Controller
         $state = state::findOrFail($id);
         $state->statename = $request->statename;
         $state->save();
-    return  redirect('/viewstate');
+        return  redirect('/viewstate');
     }
 
     /**
@@ -90,8 +92,10 @@ class stateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        $deleted = DB::table('state')->delete($id);
+    {   
+        $deleted=state::find($id);
+        $deleted->delete();
+       // $deleted = DB::table('state')->delete($id);
         return redirect('/viewstate');
     }
 }

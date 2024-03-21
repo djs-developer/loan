@@ -18,14 +18,16 @@
         </thead>
         <tr>
             @foreach($city as $city)
+           
             <tr>
             <td>{{$city -> id}}</td>
             <td>{{$city -> cityname}}</td>
-            <td>{{$city -> statename}}</td>
+            <td>{{$city -> state -> statename}}</td>
             <td><a href="/editcity/{{$city->id}}">Edit</a>
                 |
                <a href="/deletecity/{{$city->id}}"> delete</a></td>
             </tr>
+          
             @endforeach
         </tr>
     </table>

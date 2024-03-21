@@ -116,7 +116,7 @@ Route::controller(userdetailsController::class)->group(function () {
     Route::get('/viewuserdetails','index');
     Route::get('/deletedetails/{id}','destroy');
     Route::get('/edituserdetails/{id}','edit');
-    Route::post('/updateuser/{id}','update');
+    Route::post('/updateuserdetalis/{id}','update');
 });
 
 Route::get('/addmaping',function(){

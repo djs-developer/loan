@@ -19,13 +19,16 @@ class userrolemappingController extends Controller
      */
     public function index()
     {   
-        
-        $mapping = DB::table('userrolemapping')
-            ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->join('users', 'users.id', '=', 'userrolemapping.user_id')
-            ->select('userrolemapping.*', 'userrole.role','users.name')
-            ->get();
-        return view('rolemapping.viewmapping', ['mapping' => $mapping]);
+     
+        $mapping = userrolemapping::all();
+        return view('rolemapping.viewmapping', compact('mapping'));
+
+        // $mapping = DB::table('userrolemapping')
+        //     ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')// joining the contacts table , where user_id and contact_user_id are same
+        //     ->join('users', 'users.id', '=', 'userrolemapping.user_id')
+        //     ->select('userrolemapping.*', 'userrole.role','users.name')
+        //     ->get();
+        // return view('rolemapping.viewmapping', ['mapping' => $mapping]);
     }
 
     /**
@@ -73,15 +76,22 @@ class userrolemappingController extends Controller
      */
     public function edit($id)
     {
-        $mapping = DB::table('userrolemapping')
-            ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->join('users', 'users.id', '=', 'userrolemapping.user_id')
-            ->select('userrolemapping.*', 'userrole.role','users.name')
-            ->get();
+         $mapping = userrolemapping::select()
+         ->where('id',$id)
+         ->get();
         $role = DB::table('userrole')->get();
         $user = DB::table('users')->get();
-        $mapping = DB::select('select * from userrolemapping where id=?',[$id]);
-        return view('rolemapping.editmapping',['mapping'=>$mapping,'role'=>$role,'user'=>$user]);
+         return view('rolemapping.editmapping', ['mapping'=>$mapping,'role'=>$role,'user'=>$user]);
+
+        // $mapping = DB::table('userrolemapping')
+        //     ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')// joining the contacts table , where user_id and contact_user_id are same
+        //     ->join('users', 'users.id', '=', 'userrolemapping.user_id')
+        //     ->select('userrolemapping.*', 'userrole.role','users.name')
+        //     ->get();
+        // $role = DB::table('userrole')->get();
+        // $user = DB::table('users')->get();
+        // $mapping = DB::select('select * from userrolemapping where id=?',[$id]);
+        // return view('rolemapping.editmapping',['mapping'=>$mapping,'role'=>$role,'user'=>$user]);
     }
 
     /**
@@ -109,7 +119,9 @@ class userrolemappingController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('userrolemapping')->delete($id);
+        $deleted=userrolemapping::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('userrolemapping')->delete($id);
         return redirect('/viewmapping');
     }
 }

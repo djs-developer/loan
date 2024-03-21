@@ -17,8 +17,9 @@ class userroleController extends Controller
      */
     public function index()
     {
-        $users = DB::table('userrole')->get();
-        return view('userrole.viewrole', ['users' => $users]);
+        $view = Userrole::all();
+        //$users = DB::table('userrole')->get();
+        return view('userrole.viewrole', ['users' => $view]);
     }
 
     /**
@@ -65,9 +66,9 @@ class userroleController extends Controller
      */
     public function edit($id)
     {
-       //$user =  DB::table('userrole')->get($id);
-       $user = DB::select('select * from userrole where id=?',[$id]);
-        return view('userrole.editrole',['user'=>$user]);
+       $users = Userrole::where('id', $id)->get();
+       //$user = DB::select('select * from userrole where id=?',[$id]);
+        return view('userrole.editrole',['user'=>$users]);
     }
 
     /**
@@ -85,7 +86,7 @@ class userroleController extends Controller
         $project = userrole::findOrFail($id);
         $project->role = $request->role;
         $project->save();
-    return  redirect('/viewrole');
+        return  redirect('/viewrole');
     }
 
     /**
@@ -96,7 +97,9 @@ class userroleController extends Controller
      */
     public function destroy($id)
     {
-       $deleted = DB::table('userrole')->delete($id);
+        $deleted=Userrole::find($id);
+        $deleted->delete();
+       //$deleted = DB::table('userrole')->delete($id);
          return redirect('/viewrole');
     }
 }

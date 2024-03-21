@@ -19,9 +19,9 @@ class userController extends Controller
      */
     public function index()
     {
-       
-        $user = DB::table('users')->get();
-        return view('user.viewuser', ['user' => $user]);
+        $view = User::all();
+        //$user = DB::table('users')->get();
+        return view('user.viewuser', ['user' => $view]);
     }
 
     /**
@@ -69,8 +69,9 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        $user = DB::select('select * from users where id=?',[$id]);
-        return view('user.edituser',['user'=>$user]);
+        $edit = User::where('id', $id)->get();
+        //$user = DB::select('select * from users where id=?',[$id]);
+        return view('user.edituser',['user'=>$edit]);
     }
 
     /**
@@ -99,7 +100,9 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('users')->delete($id);
+        $deleted=User::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('users')->delete($id);
        return redirect('/viewuser');
     }
 }

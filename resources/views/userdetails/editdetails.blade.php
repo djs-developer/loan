@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/updateuser/{{$details[0]->user_id}}" method="post">
+    <form action="/updateuserdetalis/{{$details[0]->user_id}}" method="post">
         @csrf
         <input type="hidden" name="user_id" id="user_id" value="{{$details[0]->user_id}}">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">

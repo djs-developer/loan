@@ -18,12 +18,15 @@ class cityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-    $state = DB::table('city')
-            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->select('city.*', 'state.statename')
-            ->get();
-        return view('city.viewcity', ['city' => $state]);
+    {   
+        $view = city::has('state')->get();
+        return view('city.viewcity', ['city' => $view]);
+
+        //     $view = DB::table('city')
+        //     ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
+        //     ->select('city.*', 'state.statename')
+        //     ->get();
+        // return view('city.viewcity', ['city' => $view]);
     }
 
     /**
@@ -72,14 +75,22 @@ class cityController extends Controller
      */
     public function edit($id)
     {
-        $city = DB::table('city')
-            ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
-            ->select('city.*', 'state.statename')
+       
+        $editcity = city::has('state')
+        ->where('id',$id)
+        ->get();
+        $edit = state::all();
+        return view('city.editcity',['city'=>$editcity,'edit'=>$edit]);
+
+    //     $city = DB::table('city')
+    //         ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
+    //         ->select('city.*', 'state.statename')
             
-            ->get();
-        $edit = DB::table('state')->get();
-        $city = DB::select('select * from city where id=?',[$id]);
-        return view('city.editcity',['city'=>$city,'edit'=>$edit]);
+    //         ->get();
+    //     $edit = DB::table('state')->get();
+    //    // $city = DB::select('select * from city where id=?',[$id]);
+    //     $users = city::where('id', $id)->get();
+        //return view('city.editcity',['city'=>$city,'edit'=>$edit]);
     }
 
     /**
@@ -107,7 +118,9 @@ class cityController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('city')->delete($id);
+        $deleted=city::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('city')->delete($id);
         return redirect('/viewcity');
     }
 }
