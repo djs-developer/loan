@@ -99,4 +99,28 @@ class loantypeController extends Controller
        return redirect('/viewloan');
        
     }
+
+    // public function restore($id) 
+    // {
+    //     $loantype = loantype::where('id',$id)->withTrashed()->restore();
+        
+    //     return redirect()->route('/viewloan', ['status' => 'archived']);
+    //    // return redirect()->route('forms.show', ['form' => $forms]);
+            
+    // }
+    
+    // public function forceDelete($id) 
+    // {
+    //    $loantype =  loantype::where('id', $id)->withTrashed()->forceDelete();
+
+    //     return redirect()->route('/viewloan', ['status' => 'archived'])
+    //         ->withSuccess(__('User force deleted successfully.'));
+    // }
+    
+    // public function restoreAll() 
+    // {
+    //    $loantype =  loantype::onlyTrashed()->restore();
+    //     return redirect('/viewloan');
+    //    // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
+    // }
 }

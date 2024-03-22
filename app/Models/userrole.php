@@ -19,4 +19,10 @@ class userrole extends Model
         //return $this->belongsTo('userrolemapping','role_id');
         return $this->hasMany(userrolemapping::class,'role_id');
     }
+
+    public function rolepermission(): BelongsTo
+    {
+        //return $this->belongsTo('userrolemapping','role_id');
+        return $this->hasMany(rolepermission::class,'role_id');
+    }
 }

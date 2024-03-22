@@ -7,6 +7,18 @@
 </head>
 <body>
     @csrf
+    <div class="mt-2">
+
+            <br>
+            <a href="/viewstate">All users</a> | <a href="/viewstate?status=archived">Archived users</a>
+
+            <br><br>
+            @if(request()->get('status') == 'archived')
+                {!! Form::open(['method' => 'POST','route' => ['state.restore-all'],'style'=>'display:inline']) !!}
+                {!! Form::submit('Restore All', ['class' => 'btn btn-primary btn-sm']) !!}
+                {!! Form::close() !!}
+            @endif
+        </div>
     <table border='1'>
         <thead >
         <tr>
@@ -20,9 +32,18 @@
             <tr>
             <td>{{$state -> id}}</td>
             <td>{{$state -> statename}}</td>
-            <td><a href="/editstate/{{$state->id}}">Edit</a>
-                |
-               <a href="/deletestate/{{$state->id}}"> delete</a></td>
+            <td><a href="/editstate/{{$state->id}}">Edit</a>|
+            {!! Form::open(['method' => 'DELETE','route' => ['state.deletestate', $state->id],'style'=>'display:inline']) !!}
+                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                {!! Form::close() !!}
+            </td>
+            <td>
+                            @if(request()->get('status') == 'archived')
+                                {!! Form::open(['method' => 'DELETE','route' => ['state.forcedelete', $state->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Force Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+                            @endif
+            </td>
             </tr>
             @endforeach
         </tr>

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\state;
 use DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class stateController extends Controller
 {
@@ -93,9 +94,40 @@ class stateController extends Controller
      */
     public function destroy($id)
     {   
-        $deleted=state::find($id);
-        $deleted->delete();
-       // $deleted = DB::table('state')->delete($id);
-        return redirect('/viewstate');
+        $state = state::latest();
+        //$users=documenttype::find($id);
+        $state->delete();
+        return redirect('/viewstate')
+        ->withSuccess(__('User deleted successfully.'));
+        
+    //     $deleted=state::find($id);
+    //     $deleted->delete();
+    //    // $deleted = DB::table('state')->delete($id);
+    //     return redirect('/viewstate');
     }
+
+    public function restore($id) 
+    {
+        $state = state::where('id',$id)->withTrashed()->restore();
+        //$state  = state::where('id', $id)->withTrashed()->restore();
+
+        return redirect()->route('/viewstate', ['status' => 'archived']);
+       // return redirect()->route('forms.show', ['form' => $forms]);
+            
+    }
+
+    public function forceDelete($id) 
+    {
+       $state =  state::where('id', $id)->withTrashed()->forceDelete();
+        return redirect()->route('/viewstate', ['status' => 'archived']);
+           
+    }
+    
+    public function restoreAll() 
+    {
+       $state =  state::onlyTrashed()->restore();
+        return redirect('/viewstate');
+       // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
+    }
+   
 }

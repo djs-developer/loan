@@ -20,15 +20,16 @@ class rolepermissionController extends Controller
      */
     public function index()
     {
-        
-        $rolepermission = DB::table('rolepermission')
-        ->join('userrolemapping', 'userrolemapping.id', '=', 'rolepermission.mapping_id')// joining the contacts table , where user_id and contact_user_id are same
-        ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
-        ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')
-        ->join('users', 'users.id', '=', 'userrolemapping.user_id')
-        ->select('rolepermission.*', 'permission.permission','userrole.role','users.name')
-        ->get();
-        return view('rolepermission.viewrolepermission', ['rolepermission' => $rolepermission]);
+        $view = rolepermission::all();
+        return view('rolepermission.viewrolepermission', compact('view'));
+        // $rolepermission = DB::table('rolepermission')
+        // ->join('userrolemapping', 'userrolemapping.id', '=', 'rolepermission.mapping_id')// joining the contacts table , where user_id and contact_user_id are same
+        // ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
+        // ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')
+        // ->join('users', 'users.id', '=', 'userrolemapping.user_id')
+        // ->select('rolepermission.*', 'permission.permission','userrole.role','users.name')
+        // ->get();
+        // return view('rolepermission.viewrolepermission', ['rolepermission' => $rolepermission]);
     }
 
     /**
@@ -39,7 +40,7 @@ class rolepermissionController extends Controller
     public function create(request $request):RedirectResponse
     {
         $rolepermission = new rolepermission;
-        $rolepermission->mapping_id = $request->mapping_id;
+        $rolepermission->role_id = $request->role_id;
         $rolepermission->permission_id = $request->permission_id;
         $rolepermission->save();
        
@@ -76,6 +77,13 @@ class rolepermissionController extends Controller
      */
     public function edit($id)
     {
+        $rolepermission = rolepermission::select()
+        ->where('id',$id)
+        ->get();
+        $role = DB::table('userrole')->get();
+        $permission = DB::table('permission')->get();
+        return view('rolepermission.editrolepermission',['rolepermission'=> $rolepermission,'permission'=>$permission,'role'=>$role]);
+     
         // $rrolepermission = DB::table('rolepermission')
         // ->join('userrolemapping', 'userrolemapping.id', '=', 'rolepermission.mapping_id')// joining the contacts table , where user_id and contact_user_id are same
         // ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
@@ -83,10 +91,10 @@ class rolepermissionController extends Controller
         // // ->join('users', 'users.id', '=', 'userrolemapping.user_id')
         // ->select('rolepermission.*', 'permission.permission')
         // ->get();
-        $permission = DB::table('permission')->get();
-        $rolemapping = DB::table('userrolemapping')->get();
-        $rrolepermission = DB::select('select * from rolepermission where id=?',[$id]);
-        return view('rolepermission.editrolepermission',['rolepermission'=> $rrolepermission,'permission'=>$permission,'rolemapping'=>$rolemapping]);
+        // $permission = DB::table('permission')->get();
+        // $rolemapping = DB::table('userrolemapping')->get();
+        // $rrolepermission = DB::select('select * from rolepermission where id=?',[$id]);
+        // return view('rolepermission.editrolepermission',['rolepermission'=> $rrolepermission,'permission'=>$permission,'rolemapping'=>$rolemapping]);
     }
 
     /**
@@ -99,7 +107,7 @@ class rolepermissionController extends Controller
     public function update(Request $request, $id)
     {
         $rolepermission = rolepermission::findOrFail($id);
-        $rolepermission->mapping_id = $request->mapping_id;
+        $rolepermission->role_id = $request->role_id;
         $rolepermission->permission_id = $request->permission_id;
         $rolepermission->save();
         return redirect('/viewrolepermission');
@@ -113,7 +121,9 @@ class rolepermissionController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('rolepermission')->delete($id);
+        $deleted=rolepermission::find($id);
+        $deleted->delete();
+        //$deleted = DB::table('rolepermission')->delete($id);
         return redirect('/viewrolepermission');
     }
 }

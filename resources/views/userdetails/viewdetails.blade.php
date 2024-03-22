@@ -23,7 +23,7 @@
             <td>{{$details -> id}}</td>
             <td>{{$details -> name}}</td>
             <td>{{$details -> value}}</td>
-            <td>{{$details -> user_id}}</td>
+            <td>{{$details ->user-> name}}</td>
             <td><a href="/edituserdetails/{{$details->user_id}}">Edit</a>
                 |
                <a href="/deletedetails/{{$details->id}}"> delete</a></td>

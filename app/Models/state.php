@@ -4,12 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class state extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     public $table = 'state';
     protected $fillable = ['statename'];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates  = ['deleted_at'];
 
 }

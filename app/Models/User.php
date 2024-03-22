@@ -19,6 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    
     protected $fillable = [
         'name',
         'email',
@@ -48,5 +49,11 @@ class User extends Authenticatable
     {
        // return $this->belongsTo('App\userrolemapping','id','user_id');
         return $this->hasMany(userrolemapping::class,'user_id');
+    }
+
+    public function userdetails()
+    {
+        //return $this->hasMany(userrole::class,'id');
+        return $this->belongsTo(userdetails::class,'user_id');
     }
 }

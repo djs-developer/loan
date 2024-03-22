@@ -12,17 +12,17 @@
         <tr>
             <th>id</th>
             <th>permission</th>
-            <th>Name-role</th>
+            <th>role</th>
             <th>Action</th>
         </tr>
         </thead>
         <tr>
-            @foreach($rolepermission as $rolepermission)
+            @foreach($view as $rolepermission)
             
             <tr>
             <td>{{$rolepermission -> id}}</td>
-            <td>{{$rolepermission -> permission}}</td>
-            <td>{{$rolepermission ->name}}  - {{$rolepermission->role}}</td>
+            <td>{{$rolepermission ->permission-> permission}}</td>
+            <td> {{$rolepermission->userrole->role}}</td>
             <td><a href="/editrolepermission/{{$rolepermission->id}}">Edit</a>
                 |
                <a href="/deleterolepermission/{{$rolepermission->id}}"> delete</a></td>

@@ -7,6 +7,7 @@
 </head>
 <body>
     @csrf
+   
     <table border='1'>
         <thead >
         <tr>
@@ -22,7 +23,9 @@
             <td>{{$loan -> loanname}}</td>
             <td><a href="/editloan/{{$loan->id}}">Edit</a>
                 |
-               <a href="/deleteloan/{{$loan->id}}"> delete</a></td>
+               <a href="/deleteloan/{{$loan->id}}"> delete</a>
+               
+                        </td>
             </tr>
             @endforeach
         </tr>

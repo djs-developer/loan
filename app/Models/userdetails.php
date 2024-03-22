@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class userdetails extends Model
 {
     use HasFactory;
-
+    public $table = 'userdetails';
     protected $fillable = [
          'name',
          'value',
@@ -39,5 +39,11 @@ class userdetails extends Model
     //     $selects = implode(',', $selects);
     //     $query->selectRaw("{$selects}");
     // }
+
+    public function user()
+    {
+        //return $this->hasMany(userrole::class,'id');
+        return $this->belongsTo(User::class,'user_id');
+    }
     
 }

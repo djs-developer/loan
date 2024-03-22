@@ -15,10 +15,11 @@ class documenttypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
+
         $view = documenttype::all();
-        //$doctype = DB::table('documenttype')->get();
+           // //$doctype = DB::table('documenttype')->get();
         return view('documenttype.viewdocumenttype', ['doctype' => $view]);
     }
 
@@ -91,11 +92,42 @@ class documenttypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(documenttype $users)
     {
-        $deleted=documenttype::find($id);
-        $deleted->delete();
-        //$deleted = DB::table('documenttype')->delete($id);
-       return redirect('/viewdocument');
+            $users = documenttype::latest();
+            //$users=documenttype::find($id);
+            $users->delete();
+         return redirect('/viewdocument')
+            ->withSuccess(__('User deleted successfully.'));
+
+    //     $deleted=documenttype::find($id);
+    //     $deleted->delete();
+    //     //$deleted = DB::table('documenttype')->delete($id);
+    //    return redirect('/viewdocument');
+    }
+
+    public function restore($id) 
+    {
+        
+        $user  = documenttype::where('id', $id)->withTrashed()->restore();
+
+        return redirect()->route('/viewdocument', ['status' => 'archived'])
+            ->withSuccess(__('User restored successfully.'));
+        
+    }
+
+    public function forceDelete($id) 
+    {
+       $user =  documenttype::where('id', $id)->withTrashed()->forceDelete();
+
+        return redirect()->route('/viewdocument', ['status' => 'archived'])
+            ->withSuccess(__('User force deleted successfully.'));
+    }
+    
+    public function restoreAll() 
+    {
+       $user =  documenttype::onlyTrashed()->restore();
+        return redirect('/viewdocument');
+       // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
     }
 }

@@ -15,6 +15,7 @@ use App\Models\state;
 use App\Models\userrole;
 use App\Models\userrolemapping;
 use App\Models\userdetails;
+use App\Models\permission;
 use App\Http\Resources\userdetailsCollection;
 //use DB;
 use Illuminate\Http\Request;
@@ -56,18 +57,27 @@ Route::controller(loantypeController::class)->group(function () {
     Route::get('/deleteloan/{id}','destroy');
     Route::get('/editloan/{id}','edit');
     Route::post('/updateloan/{id}','update');
+    // Route::post('/restoreloan', 'restore');
+    // Route::delete('/forcedeleteloan', 'forceDelete');
+    // Route::post('/restore-allloan', 'restoreAll');
 });
 
 Route::get('/addstate',function(){
     return view('state/addstate');
 });
 
+
 Route::controller(stateController::class)->group(function () {
     Route::post('/stateprocess', 'create');
-    Route::get('/viewstate','index');
-    Route::get('/deletestate/{id}','destroy');
+    Route::get('/viewstate','index')->name('state.index');
+    //Route::get('/deletestate/{id}','destroy');
     Route::get('/editstate/{id}','edit');
     Route::post('/updatestate/{id}','update');
+    Route::delete('/deletestate/{id}', 'destroy')->name('state.deletestate');
+    Route::post('/restorestate', 'restore');
+    Route::delete('{state}/forcedeletestate', 'forceDelete')->name('state.forcedelete');
+    Route::post('/restorestate', 'restoreAll')->name('state.restore-all');
+   
 });
 
 Route::get('/addcity',function(){
@@ -89,10 +99,14 @@ Route::get('/adddocument',function(){
 
 Route::controller(documenttypeController::class)->group(function () {
     Route::post('/documentprocess', 'create');
-    Route::get('/viewdocument','index');
-    Route::get('/deletedoctype/{id}','destroy');
+    Route::get('/viewdocument','index')->name('documenttype.index');
+   // Route::get('/deletedoctype/{id}','destroy');
     Route::get('/editdoctype/{id}','edit');
     Route::post('/updatdoctype/{id}','update');
+    Route::delete('/{doctype}/delete', 'destroy')->name('documenttype.delete');
+    Route::post('/{doctype}/restore', 'restore')->name('documenttype.restore');
+    Route::delete('/{doctype}/force-delete', 'forceDelete')->name('documenttype.force-delete');
+    Route::post('/restore-all', 'restoreAll')->name('documenttype.restore-all');
 });
 
 Route::get('/adduser',function(){
@@ -146,9 +160,9 @@ Route::controller(permissionController::class)->group(function () {
 });
 
 Route::get('/addrolepermission',function(){
-    $rolemapping = DB::table('userrolemapping')->get();
-    $permission = DB::table('permission')->get();
-    return view('rolepermission/addrolepermission',['rolemapping'=>$rolemapping,'permission'=>$permission]);
+    $userrole = userrole::all();
+    $permission = permission::all();
+    return view('rolepermission/addrolepermission',['userrole'=>$userrole,'permission'=>$permission]);
 });
 
 Route::controller(rolepermissionController::class)->group(function () {

@@ -10,11 +10,11 @@
         @csrf
         <div>
         <div class="form-group">
-                <label for=""><b>Mapping_id:</b></label>
-                <select name="mapping_id" id="mapping_id">
-                     @foreach($rolemapping as $rolemapping)
+                <label for=""><b>Role Name:</b></label>
+                <select name="role_id" id="role_id">
+                     @foreach($userrole as $userrole)
                      
-                        <option value="{{$rolemapping->id}}" data-id="{{$rolemapping->id}}">{{$rolemapping->id}} </option>
+                        <option value="{{$userrole->id}}" data-id="{{$userrole->id}}">{{$userrole->role}} </option>
                      @endforeach
                 </select>   
         </div>

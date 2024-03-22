@@ -13,9 +13,9 @@
         <div>
         <div class="form-group">
                 <label for=""><b>Mapping_id:</b></label>
-                <select name="mapping_id" id="mapping_id">
-                     @foreach($rolemapping as $rolemapping)
-                        <option value="{{$rolemapping->id}}" {{$rolepermission[0]->mapping_id == $rolemapping->id ? 'selected' : ''}} >{{$rolemapping->id}} </option>
+                <select name="role_id" id="role_id">
+                     @foreach($role as $role)
+                        <option value="{{$role->id}}" {{$rolepermission[0]->role_id == $role->id ? 'selected' : ''}} >{{$role->role}} </option>
                      @endforeach
                 </select>   
         </div>
