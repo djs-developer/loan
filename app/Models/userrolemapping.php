@@ -8,13 +8,21 @@ use App\Models\userrole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class userrolemapping extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     public $table = 'userrolemapping';
     protected $fillable = ['role_id,user_id'];
     protected $primaryKey = 'id';
+
+     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates  = ['deleted_at'];
    
      public function user()
      {

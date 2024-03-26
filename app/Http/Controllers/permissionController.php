@@ -8,6 +8,7 @@ use App\Models\permission;
 use App\Http\Controllers\Controller;
 use DB;
 
+
 class permissionController extends Controller
 {
     /**
@@ -15,11 +16,19 @@ class permissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
-        $view = permission::all();
-        $permission = DB::table('permission')->get();
-        return view('permission.viewpermission', ['permission' => $view]);
+        $permission = permission::all();
+
+        if($request->get('status') == 'archived') {
+            $permission = permission::onlyTrashed()->get();
+        }
+
+        return view('permission.viewpermission', compact('permission'));
+
+        // $view = permission::all();
+        // $permission = DB::table('permission')->get();
+        // return view('permission.viewpermission', ['permission' => $view]);
     }
 
     /**
@@ -97,5 +106,26 @@ class permissionController extends Controller
         $deleted->delete();
         //$deleted = DB::table('permission')->delete($id);
        return redirect('/viewpermission');
+    }
+    public function restore($id) 
+    {
+        $permission = permission::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewpermission');
+            
+    }
+
+    public function forceDelete($id) 
+    {
+        $permission =  permission::where('id', $id)->withTrashed()->forceDelete();
+
+        return redirect('/viewpermission');
+           
+    }
+    
+    public function restoreAll() 
+    {
+        $permission =  permission::onlyTrashed()->restore();
+        return redirect('/viewpermission');
     }
 }

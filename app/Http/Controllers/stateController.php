@@ -16,11 +16,18 @@ class stateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {   
-        $stateview = state::all();
-        //$state = DB::table('state')->get();
-        return view('state.viewstate', ['state' => $stateview]);
+        $state = state::all();
+
+        if($request->get('status') == 'archived') {
+            $state = state::onlyTrashed()->get();
+        }
+
+        return view('state.viewstate', compact('state'));
+        // $stateview = state::all();
+        // //$state = DB::table('state')->get();
+        // return view('state.viewstate', ['state' => $stateview]);
     }
 
     /**
@@ -94,11 +101,9 @@ class stateController extends Controller
      */
     public function destroy($id)
     {   
-        $state = state::latest();
-        //$users=documenttype::find($id);
-        $state->delete();
-        return redirect('/viewstate')
-        ->withSuccess(__('User deleted successfully.'));
+        $deleted=state::find($id);
+        $deleted->delete();
+       return redirect('/viewstate');
         
     //     $deleted=state::find($id);
     //     $deleted->delete();
@@ -109,23 +114,22 @@ class stateController extends Controller
     public function restore($id) 
     {
         $state = state::where('id',$id)->withTrashed()->restore();
-        //$state  = state::where('id', $id)->withTrashed()->restore();
-
-        return redirect()->route('/viewstate', ['status' => 'archived']);
-       // return redirect()->route('forms.show', ['form' => $forms]);
+        
+       return redirect('/viewstate');
             
     }
 
     public function forceDelete($id) 
     {
-       $state =  state::where('id', $id)->withTrashed()->forceDelete();
-        return redirect()->route('/viewstate', ['status' => 'archived']);
+        $state =  state::where('id', $id)->withTrashed()->forceDelete();
+
+        return redirect('/viewstate');
            
     }
     
     public function restoreAll() 
     {
-       $state =  state::onlyTrashed()->restore();
+        $state =  state::onlyTrashed()->restore();
         return redirect('/viewstate');
        // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
     }

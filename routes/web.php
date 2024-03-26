@@ -11,6 +11,7 @@ use App\Http\Controllers\userdetailsController;
 use App\Http\Controllers\userrolemappingController;
 use App\Http\Controllers\permissionController;
 use App\Http\Controllers\rolepermissionController;
+use App\Http\Controllers\addrolepermissionController;
 use App\Models\state;
 use App\Models\userrole;
 use App\Models\userrolemapping;
@@ -42,9 +43,12 @@ Route::get('/addrole',function(){
 Route::controller(userroleController::class)->group(function () {
     Route::post('/processaddrole', 'create');
     Route::get('/viewrole','index');
-    Route::get('/delete/{id}','destroy');
+    Route::delete('/delete/{id}','destroy')->name('userrole.deleterole');
     Route::get('/edit/{id}','edit');
     Route::post('/update/{id}','update');
+    Route::post('/restoreuserrole/{id}', 'restore')->name('userrole.restoreuserrole');
+    Route::delete('/forcedeleteuserrole/{id}', 'forceDelete')->name('userrole.forcedeleteuserrole');
+    Route::post('/restorealluserrole', 'restoreAll')->name('userrole.restorealluserrole');
 });
 
 Route::get('/addloan',function(){
@@ -54,12 +58,12 @@ Route::get('/addloan',function(){
 Route::controller(loantypeController::class)->group(function () {
     Route::post('/loanprocess', 'create');
     Route::get('/viewloan','index');
-    Route::get('/deleteloan/{id}','destroy');
+    Route::delete('/deleteloan/{id}','destroy')->name('loantype.deleteloan');
     Route::get('/editloan/{id}','edit');
     Route::post('/updateloan/{id}','update');
-    // Route::post('/restoreloan', 'restore');
-    // Route::delete('/forcedeleteloan', 'forceDelete');
-    // Route::post('/restore-allloan', 'restoreAll');
+    Route::post('/restoreloan/{id}', 'restore')->name('loantype.restoreloan');
+    Route::delete('/forcedeleteloan/{id}', 'forceDelete')->name('loantype.forcedeleteloan');
+    Route::post('/restoreallloan', 'restoreAll')->name('loantype.restoreallloan');
 });
 
 Route::get('/addstate',function(){
@@ -69,14 +73,13 @@ Route::get('/addstate',function(){
 
 Route::controller(stateController::class)->group(function () {
     Route::post('/stateprocess', 'create');
-    Route::get('/viewstate','index')->name('state.index');
-    //Route::get('/deletestate/{id}','destroy');
+    Route::get('/viewstate','index');
+    Route::delete('/deletestate/{id}','destroy')->name('state.deletestate');
     Route::get('/editstate/{id}','edit');
     Route::post('/updatestate/{id}','update');
-    Route::delete('/deletestate/{id}', 'destroy')->name('state.deletestate');
-    Route::post('/restorestate', 'restore');
-    Route::delete('{state}/forcedeletestate', 'forceDelete')->name('state.forcedelete');
-    Route::post('/restorestate', 'restoreAll')->name('state.restore-all');
+    Route::post('/restorestate/{id}', 'restore')->name('state.restorestate');
+    Route::delete('/forcedeletestate/{id}', 'forceDelete')->name('state.forcedeletestate');
+    Route::post('/restoreallstate', 'restoreAll')->name('state.restoreallstate');
    
 });
 
@@ -88,9 +91,12 @@ Route::get('/addcity',function(){
 Route::controller(cityController::class)->group(function () {
     Route::post('/cityprocess', 'create');
     Route::get('/viewcity','index');
-    Route::get('/deletecity/{id}','destroy');
+    Route::delete('/deletecity/{id}','destroy')->name('city.deletecity');
     Route::get('/editcity/{id}','edit');
     Route::post('/updatecity/{id}','update');
+    Route::post('/restorerole/{id}', 'restore')->name('city.restorecity');
+    Route::delete('/forcedeleterole/{id}', 'forceDelete')->name('city.forcedeletecity');
+    Route::post('/restoreallrole', 'restoreAll')->name('city.restoreallcity');
 });
 
 Route::get('/adddocument',function(){
@@ -99,14 +105,13 @@ Route::get('/adddocument',function(){
 
 Route::controller(documenttypeController::class)->group(function () {
     Route::post('/documentprocess', 'create');
-    Route::get('/viewdocument','index')->name('documenttype.index');
-   // Route::get('/deletedoctype/{id}','destroy');
+    Route::get('/viewdocument','index');
+    Route::delete('/deletedoctype/{id}','destroy')->name('documenttype.deletedoc');
     Route::get('/editdoctype/{id}','edit');
     Route::post('/updatdoctype/{id}','update');
-    Route::delete('/{doctype}/delete', 'destroy')->name('documenttype.delete');
-    Route::post('/{doctype}/restore', 'restore')->name('documenttype.restore');
-    Route::delete('/{doctype}/force-delete', 'forceDelete')->name('documenttype.force-delete');
-    Route::post('/restore-all', 'restoreAll')->name('documenttype.restore-all');
+    Route::post('/restoredoc/{id}', 'restore')->name('documenttype.restoredoc');
+    Route::delete('/forcedeletedoc/{id}', 'forceDelete')->name('documenttype.forcedeletedoc');
+    Route::post('/restorealldoc', 'restoreAll')->name('documenttype.restorealldoc');
 });
 
 Route::get('/adduser',function(){
@@ -116,9 +121,12 @@ Route::get('/adduser',function(){
 Route::controller(userController::class)->group(function () {
     Route::post('/userprocess', 'create');
     Route::get('/viewuser','index');
-    Route::get('/deleteuser/{id}','destroy');
+    Route::delete('/deleteuser/{id}','destroy')->name('user.deleteuser');
     Route::get('/edituser/{id}','edit');
     Route::post('/updateuser/{id}','update');
+    Route::post('/restoreuser/{id}', 'restore')->name('user.restoreuser');
+    Route::delete('/forcedeleteuser/{id}', 'forceDelete')->name('user.forcedeleteuser');
+    Route::post('/restorealluser', 'restoreAll')->name('user.restorealluser');
 });
 
 Route::get('/adduserdetails',function(){
@@ -128,9 +136,12 @@ Route::get('/adduserdetails',function(){
 Route::controller(userdetailsController::class)->group(function () {
     Route::post('/userdprocess', 'create');
     Route::get('/viewuserdetails','index');
-    Route::get('/deletedetails/{id}','destroy');
+    Route::delete('/deletedetails/{id}','destroy')->name('userdetails.deletedetails');
     Route::get('/edituserdetails/{id}','edit');
     Route::post('/updateuserdetalis/{id}','update');
+    Route::post('/restoredetails/{id}', 'restore')->name('userdetails.restoredetails');
+    Route::delete('/forcedeletedetails/{id}', 'forceDelete')->name('userdetails.forcedeletedetails');
+    Route::post('/restorealldetails', 'restoreAll')->name('userdetails.restorealldetails');
 });
 
 Route::get('/addmaping',function(){
@@ -140,11 +151,14 @@ return view('rolemapping/addmapping',['role'=>$role,'users'=>$users]);
 });
 
 Route::controller(userrolemappingController::class)->group(function () {
-Route::post('/mappingprocess', 'create');
-Route::get('/viewmapping','index');
-Route::get('/deletemapping/{id}','destroy');
-Route::get('/editmapping/{id}','edit');
-Route::post('/updatemapping/{id}','update');
+    Route::post('/mappingprocess', 'create');
+    Route::get('/viewmapping','index');
+    Route::delete('/deletemapping/{id}','destroy')->name('mapping.deletemapping');
+    Route::get('/editmapping/{id}','edit');
+    Route::post('/updatemapping/{id}','update');
+    Route::post('/restoremapping/{id}', 'restore')->name('mapping.restoremapping');
+    Route::delete('/forcedeletemapping/{id}', 'forceDelete')->name('mapping.forcedeletemapping');
+    Route::post('/restoreallmapping', 'restoreAll')->name('mapping.restoreallmapping');
 });
 
 Route::get('/addpermission',function(){
@@ -154,9 +168,12 @@ return view('permission/addpermission');
 Route::controller(permissionController::class)->group(function () {
     Route::post('/permissionprocess', 'create');
     Route::get('/viewpermission','index');
-    Route::get('/deletepermission/{id}','destroy');
+    Route::delete('/deletepermission/{id}','destroy')->name('permission.deletepermission');
     Route::get('/editpermission/{id}','edit');
     Route::post('/updatepermission/{id}','update');
+    Route::post('/restorepermission/{id}', 'restore')->name('permission.restorepermission');
+    Route::delete('/forcedeletepermission/{id}', 'forceDelete')->name('permission.forcedeletepermission');
+    Route::post('/restoreallpermission', 'restoreAll')->name('permission.restoreallpermission');
 });
 
 Route::get('/addrolepermission',function(){
@@ -168,7 +185,22 @@ Route::get('/addrolepermission',function(){
 Route::controller(rolepermissionController::class)->group(function () {
     Route::post('/rolepermissionprocess', 'create');
     Route::get('/viewrolepermission','index');
-    Route::get('/deleterolepermission/{id}','destroy');
+    Route::delete('/deleterolepermission/{id}','destroy')->name('rolepermission.deleterolepermission');
     Route::get('/editrolepermission/{id}','edit');
     Route::post('/updaterolepermission/{id}','update');
+    Route::post('/restorerolepermission/{id}', 'restore')->name('rolepermission.restorerolepermission');
+    Route::delete('/forcedeleterolepermission/{id}', 'forceDelete')->name('rolepermission.forcedeleterolepermission');
+    Route::post('/restoreallrolepermission', 'restoreAll')->name('rolepermission.restoreallrolepermission');
+});
+
+Route::get('/addform',function(){
+    return view('rolepermissionform/add');
+});
+
+Route::controller(addrolepermissionController::class)->group(function () {
+    Route::post('/addrolepermissionform', 'create');
+    // Route::get('/viewrolepermission','index');
+    // Route::delete('/deleterolepermission/{id}','destroy');
+    // Route::get('/editrolepermission/{id}','edit');
+    // Route::post('/updaterolepermission/{id}','update');
 });

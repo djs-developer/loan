@@ -17,10 +17,17 @@ class cityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {   
-        $view = city::has('state')->get();
-        return view('city.viewcity', ['city' => $view]);
+        $city = city::has('state')->get();
+
+        if($request->get('status') == 'archived') {
+            $city = city::onlyTrashed()->get();
+        }
+        return view('city.viewcity', compact('city'));
+
+        // $view = city::has('state')->get();
+        // return view('city.viewcity', ['city' => $view]);
 
         //     $view = DB::table('city')
         //     ->join('state', 'state.id', '=', 'city.state_id')// joining the contacts table , where user_id and contact_user_id are same
@@ -121,6 +128,23 @@ class cityController extends Controller
         $deleted=city::find($id);
         $deleted->delete();
         //$deleted = DB::table('city')->delete($id);
+        return redirect('/viewcity');
+    }
+    public function restore($id) 
+    {
+        $city = city::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewcity');       
+    }
+    public function forceDelete($id) 
+    {
+       $city =  city::where('id', $id)->withTrashed()->forceDelete();
+
+       return redirect('/viewcity');
+    }
+    public function restoreAll() 
+    {
+       $city =  city::onlyTrashed()->restore();
         return redirect('/viewcity');
     }
 }

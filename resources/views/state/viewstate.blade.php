@@ -14,7 +14,7 @@
 
             <br><br>
             @if(request()->get('status') == 'archived')
-                {!! Form::open(['method' => 'POST','route' => ['state.restore-all'],'style'=>'display:inline']) !!}
+                {!! Form::open(['method' => 'POST','route' => ['state.restoreallstate'],'style'=>'display:inline']) !!}
                 {!! Form::submit('Restore All', ['class' => 'btn btn-primary btn-sm']) !!}
                 {!! Form::close() !!}
             @endif
@@ -33,16 +33,22 @@
             <td>{{$state -> id}}</td>
             <td>{{$state -> statename}}</td>
             <td><a href="/editstate/{{$state->id}}">Edit</a>|
-            {!! Form::open(['method' => 'DELETE','route' => ['state.deletestate', $state->id],'style'=>'display:inline']) !!}
-                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                {!! Form::close() !!}
-            </td>
+            @if(request()->get('status') == 'archived')
+                                {!! Form::open(['method' => 'POST','route' => ['state.restorestate', $state->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Restore', ['class' => 'btn btn-primary btn-sm']) !!}
+                                {!! Form::close() !!}
+            @else|
+                            {!! Form::open(['method' => 'DELETE','route' => ['state.deletestate', $state->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+            @endif
             <td>
                             @if(request()->get('status') == 'archived')
-                                {!! Form::open(['method' => 'DELETE','route' => ['state.forcedelete', $state->id],'style'=>'display:inline']) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['state.forcedeletestate', $state->id],'style'=>'display:inline']) !!}
                                 {!! Form::submit('Force Delete', ['class' => 'btn btn-danger btn-sm']) !!}
                                 {!! Form::close() !!}
                             @endif
+            </td>
             </td>
             </tr>
             @endforeach

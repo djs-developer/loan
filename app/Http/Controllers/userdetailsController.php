@@ -19,10 +19,19 @@ class userdetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
+
         $details = userdetails::all();
+
+        if($request->get('status') == 'archived') {
+            $details = userdetails::onlyTrashed()->get();
+        }
+
         return view('userdetails.viewdetails', compact('details'));
+
+        // $details = userdetails::all();
+        // return view('userdetails.viewdetails', compact('details'));
 
         //return view('rolemapping.viewmapping', compact('mapping'));
        // $details = DB::table('userdetails')->get();
@@ -183,7 +192,29 @@ class userdetailsController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = DB::table('userdetails')->delete($id);
+
+        $deleted=userdetails::find($id);
+        $deleted->delete();
+        return redirect('/viewuserdetails');
+
+        // $deleted = DB::table('userdetails')->delete($id);
+        // return redirect('/viewuserdetails');
+    }
+    public function restore($id) 
+    {
+        $userdetails = userdetails::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewuserdetails');       
+    }
+    public function forceDelete($id) 
+    {
+       $userdetails =  userdetails::where('id', $id)->withTrashed()->forceDelete();
+
+       return redirect('/viewuserdetails');
+    }
+    public function restoreAll() 
+    {
+       $userdetails =  userdetails::onlyTrashed()->restore();
         return redirect('/viewuserdetails');
     }
 }

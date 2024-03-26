@@ -18,10 +18,18 @@ class rolepermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
         $view = rolepermission::all();
+
+        if($request->get('status') == 'archived') {
+            $view = rolepermission::onlyTrashed()->get();
+        }
+
         return view('rolepermission.viewrolepermission', compact('view'));
+
+        // $view = rolepermission::all();
+        // return view('rolepermission.viewrolepermission', compact('view'));
         // $rolepermission = DB::table('rolepermission')
         // ->join('userrolemapping', 'userrolemapping.id', '=', 'rolepermission.mapping_id')// joining the contacts table , where user_id and contact_user_id are same
         // ->join('permission', 'permission.id', '=', 'rolepermission.permission_id')
@@ -124,6 +132,27 @@ class rolepermissionController extends Controller
         $deleted=rolepermission::find($id);
         $deleted->delete();
         //$deleted = DB::table('rolepermission')->delete($id);
+        return redirect('/viewrolepermission');
+    }
+    public function restore($id) 
+    {
+        $rolepermission = rolepermission::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewrolepermission');
+            
+    }
+
+    public function forceDelete($id) 
+    {
+        $rolepermission =  rolepermission::where('id', $id)->withTrashed()->forceDelete();
+
+        return redirect('/viewrolepermission');
+           
+    }
+    
+    public function restoreAll() 
+    {
+        $rolepermission =  rolepermission::onlyTrashed()->restore();
         return redirect('/viewrolepermission');
     }
 }

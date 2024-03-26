@@ -8,14 +8,16 @@ use App\Models\userrole;
 use App\Models\permission;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
 class rolepermission extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     //use SoftDeletes;
     public $table = 'rolepermission';
 
+    protected $dates  = ['deleted_at'];
     public function permission()
     {
    //     return $this->hasMany(User::class,'user_id');

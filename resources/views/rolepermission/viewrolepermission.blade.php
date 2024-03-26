@@ -6,6 +6,19 @@
     <title>Document</title>
 </head>
 <body>
+ <div class="mt-2">
+
+    <br>
+    <a href="/viewrolepermission">All Role Permission</a> | <a href="/viewrolepermission?status=archived">Archived users</a>
+
+    <br><br>
+    @if(request()->get('status') == 'archived')
+    {!! Form::open(['method' => 'POST','route' => ['rolepermission.restoreallrolepermission'],'style'=>'display:inline']) !!}
+    {!! Form::submit('Restore All', ['class' => 'btn btn-primary btn-sm']) !!}
+    {!! Form::close() !!}
+    @endif
+    </div>
+
     @csrf
     <table border='1'>
         <thead >
@@ -24,8 +37,23 @@
             <td>{{$rolepermission ->permission-> permission}}</td>
             <td> {{$rolepermission->userrole->role}}</td>
             <td><a href="/editrolepermission/{{$rolepermission->id}}">Edit</a>
-                |
-               <a href="/deleterolepermission/{{$rolepermission->id}}"> delete</a></td>
+            @if(request()->get('status') == 'archived')
+                                {!! Form::open(['method' => 'POST','route' => ['rolepermission.restorerolepermission', $rolepermission->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Restore', ['class' => 'btn btn-primary btn-sm']) !!}
+                                {!! Form::close() !!}
+            @else|
+                            {!! Form::open(['method' => 'DELETE','route' => ['rolepermission.deleterolepermission', $rolepermission->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+            @endif
+            <td>
+                            @if(request()->get('status') == 'archived')
+                                {!! Form::open(['method' => 'DELETE','route' => ['rolepermission.forcedeleterolepermission', $rolepermission->id],'style'=>'display:inline']) !!}
+                                {!! Form::submit('Force Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+                            @endif
+            </td>
+            </td>
             </tr>
            
             @endforeach

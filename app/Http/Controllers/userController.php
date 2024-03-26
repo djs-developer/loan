@@ -17,11 +17,19 @@ class userController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
-        $view = User::all();
-        //$user = DB::table('users')->get();
-        return view('user.viewuser', ['user' => $view]);
+        $user = User::all();
+
+        if($request->get('status') == 'archived') {
+            $user = User::onlyTrashed()->get();
+        }
+
+        return view('user.viewuser', compact('user'));
+
+        // $view = User::all();
+        // //$user = DB::table('users')->get();
+        // return view('user.viewuser', ['user' => $view]);
     }
 
     /**
@@ -104,5 +112,22 @@ class userController extends Controller
         $deleted->delete();
         //$deleted = DB::table('users')->delete($id);
        return redirect('/viewuser');
+    }
+    public function restore($id) 
+    {
+        $user = User::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewuser');       
+    }
+    public function forceDelete($id) 
+    {
+       $user =  User::where('id', $id)->withTrashed()->forceDelete();
+
+       return redirect('/viewuser');
+    }
+    public function restoreAll() 
+    {
+       $user =  User::onlyTrashed()->restore();
+        return redirect('/viewuser');
     }
 }

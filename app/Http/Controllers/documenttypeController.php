@@ -17,10 +17,16 @@ class documenttypeController extends Controller
      */
     public function index(request $request)
     {
+        $doctype = documenttype::all();
 
-        $view = documenttype::all();
-           // //$doctype = DB::table('documenttype')->get();
-        return view('documenttype.viewdocumenttype', ['doctype' => $view]);
+        if($request->get('status') == 'archived') {
+            $doctype = documenttype::onlyTrashed()->get();
+        }
+        return view('documenttype.viewdocumenttype', compact('doctype'));
+
+        // $view = documenttype::all();
+        //    // //$doctype = DB::table('documenttype')->get();
+        // return view('documenttype.viewdocumenttype', ['doctype' => $view]);
     }
 
     /**
@@ -92,13 +98,11 @@ class documenttypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(documenttype $users)
+    public function destroy($id)
     {
-            $users = documenttype::latest();
-            //$users=documenttype::find($id);
-            $users->delete();
-         return redirect('/viewdocument')
-            ->withSuccess(__('User deleted successfully.'));
+        $deleted=documenttype::find($id);
+        $deleted->delete();
+         return redirect('/viewdocument');
 
     //     $deleted=documenttype::find($id);
     //     $deleted->delete();
@@ -109,24 +113,22 @@ class documenttypeController extends Controller
     public function restore($id) 
     {
         
-        $user  = documenttype::where('id', $id)->withTrashed()->restore();
-
-        return redirect()->route('/viewdocument', ['status' => 'archived'])
-            ->withSuccess(__('User restored successfully.'));
+    $doctype = documenttype::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewdocument');
         
     }
 
     public function forceDelete($id) 
     {
-       $user =  documenttype::where('id', $id)->withTrashed()->forceDelete();
+        $doctype =  documenttype::where('id', $id)->withTrashed()->forceDelete();
 
-        return redirect()->route('/viewdocument', ['status' => 'archived'])
-            ->withSuccess(__('User force deleted successfully.'));
+       return redirect('/viewdocument');
     }
     
     public function restoreAll() 
     {
-       $user =  documenttype::onlyTrashed()->restore();
+        $doctype =  documenttype::onlyTrashed()->restore();
         return redirect('/viewdocument');
        // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
     }

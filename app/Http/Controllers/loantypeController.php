@@ -15,11 +15,18 @@ class loantypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
-        $view = loantype::all();
-        //$loan = DB::table('loantype')->get();
-        return view('loantype.viewloan', ['loan' => $view]);
+        $loan = loantype::all();
+
+        if($request->get('status') == 'archived') {
+            $loan = loantype::onlyTrashed()->get();
+        }
+
+        return view('loantype.viewloan', compact('loan'));
+        // $view = loantype::all();
+        // //$loan = DB::table('loantype')->get();
+        // return view('loantype.viewloan', ['loan' => $view]);
     }
 
     /**
@@ -100,27 +107,26 @@ class loantypeController extends Controller
        
     }
 
-    // public function restore($id) 
-    // {
-    //     $loantype = loantype::where('id',$id)->withTrashed()->restore();
+    public function restore($id) 
+    {
+        $loantype = loantype::where('id',$id)->withTrashed()->restore();
         
-    //     return redirect()->route('/viewloan', ['status' => 'archived']);
-    //    // return redirect()->route('forms.show', ['form' => $forms]);
+       return redirect('/viewloan');
+       
             
-    // }
+    }
     
-    // public function forceDelete($id) 
-    // {
-    //    $loantype =  loantype::where('id', $id)->withTrashed()->forceDelete();
+    public function forceDelete($id) 
+    {
+       $loantype =  loantype::where('id', $id)->withTrashed()->forceDelete();
 
-    //     return redirect()->route('/viewloan', ['status' => 'archived'])
-    //         ->withSuccess(__('User force deleted successfully.'));
-    // }
+       return redirect('/viewloan');
+    }
     
-    // public function restoreAll() 
-    // {
-    //    $loantype =  loantype::onlyTrashed()->restore();
-    //     return redirect('/viewloan');
-    //    // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
-    // }
+    public function restoreAll() 
+    {
+       $loantype =  loantype::onlyTrashed()->restore();
+        return redirect('/viewloan');
+       // return redirect()->route('documenttype.viewdocument')->withSuccess(__('All users restored successfully.'));
+    }
 }

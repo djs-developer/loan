@@ -17,11 +17,18 @@ class userrolemappingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {   
-     
         $mapping = userrolemapping::all();
+
+        if($request->get('status') == 'archived') {
+            $mapping = userrolemapping::onlyTrashed()->get();
+        }
+
         return view('rolemapping.viewmapping', compact('mapping'));
+     
+        // $mapping = userrolemapping::all();
+        // return view('rolemapping.viewmapping', compact('mapping'));
 
         // $mapping = DB::table('userrolemapping')
         //     ->join('userrole', 'userrole.id', '=', 'userrolemapping.role_id')// joining the contacts table , where user_id and contact_user_id are same
@@ -122,6 +129,23 @@ class userrolemappingController extends Controller
         $deleted=userrolemapping::find($id);
         $deleted->delete();
         //$deleted = DB::table('userrolemapping')->delete($id);
+        return redirect('/viewmapping');
+    }
+    public function restore($id) 
+    {
+        $mapping = userrolemapping::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewmapping');       
+    }
+    public function forceDelete($id) 
+    {
+       $mapping =  userrolemapping::where('id', $id)->withTrashed()->forceDelete();
+
+       return redirect('/viewmapping');
+    }
+    public function restoreAll() 
+    {
+       $mapping =  userrolemapping::onlyTrashed()->restore();
         return redirect('/viewmapping');
     }
 }

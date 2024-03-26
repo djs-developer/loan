@@ -15,11 +15,19 @@ class userroleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
-        $view = Userrole::all();
-        //$users = DB::table('userrole')->get();
-        return view('userrole.viewrole', ['users' => $view]);
+        $users = Userrole::all();
+
+        if($request->get('status') == 'archived') {
+            $users = Userrole::onlyTrashed()->get();
+        }
+
+        return view('userrole.viewrole', compact('users'));
+
+        // $view = Userrole::all();
+        // //$users = DB::table('userrole')->get();
+        // return view('userrole.viewrole', ['users' => $view]);
     }
 
     /**
@@ -97,9 +105,27 @@ class userroleController extends Controller
      */
     public function destroy($id)
     {
+        
         $deleted=Userrole::find($id);
         $deleted->delete();
        //$deleted = DB::table('userrole')->delete($id);
          return redirect('/viewrole');
+    }
+    public function restore($id) 
+    {
+        $userrole = userrole::where('id',$id)->withTrashed()->restore();
+        
+       return redirect('/viewrole');       
+    }
+    public function forceDelete($id) 
+    {
+       $userrole =  userrole::where('id', $id)->withTrashed()->forceDelete();
+
+       return redirect('/viewrole');
+    }
+    public function restoreAll() 
+    {
+       $userrole =  userrole::onlyTrashed()->restore();
+        return redirect('/viewrole');
     }
 }

@@ -14,7 +14,7 @@
 
             <br><br>
             @if(request()->get('status') == 'archived')
-                {!! Form::open(['method' => 'POST','route' => ['documenttype.restore-all'],'style'=>'display:inline']) !!}
+                {!! Form::open(['method' => 'POST','route' => ['documenttype.restorealldoc'],'style'=>'display:inline']) !!}
                 {!! Form::submit('Restore All', ['class' => 'btn btn-primary btn-sm']) !!}
                 {!! Form::close() !!}
             @endif
@@ -37,18 +37,18 @@
             
             
                             @if(request()->get('status') == 'archived')
-                                {!! Form::open(['method' => 'POST','route' => ['documenttype.restore', $doctype->id],'style'=>'display:inline']) !!}
+                                {!! Form::open(['method' => 'POST','route' => ['documenttype.restoredoc', $doctype->id],'style'=>'display:inline']) !!}
                                 {!! Form::submit('Restore', ['class' => 'btn btn-primary btn-sm']) !!}
                                 {!! Form::close() !!}
                             @else
-                                {!! Form::open(['method' => 'DELETE','route' => ['documenttype.delete', $doctype->id],'style'=>'display:inline']) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['documenttype.deletedoc', $doctype->id],'style'=>'display:inline']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
                                 {!! Form::close() !!}
                             @endif
             </td>
             <td>
                             @if(request()->get('status') == 'archived')
-                                {!! Form::open(['method' => 'DELETE','route' => ['documenttype.force-delete', $doctype->id],'style'=>'display:inline']) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['documenttype.forcedeletedoc', $doctype->id],'style'=>'display:inline']) !!}
                                 {!! Form::submit('Force Delete', ['class' => 'btn btn-danger btn-sm']) !!}
                                 {!! Form::close() !!}
                             @endif
