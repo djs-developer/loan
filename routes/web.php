@@ -20,6 +20,8 @@ use App\Models\permission;
 use App\Http\Resources\userdetailsCollection;
 //use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,12 +191,29 @@ Route::controller(rolepermissionController::class)->group(function () {
     Route::get('/editrolepermission/{id}','edit');
     Route::post('/updaterolepermission/{id}','update');
     Route::post('/restorerolepermission/{id}', 'restore')->name('rolepermission.restorerolepermission');
-    Route::delete('/forcedeleterolepermission/{id}', 'forceDelete')->name('rolepermission.forcedeleterolepermission');
+    Route::delete('s/forcedeleterolepermission/{id}', 'forceDelete')->name('rolepermission.forcedeleterolepermission');
     Route::post('/restoreallrolepermission', 'restoreAll')->name('rolepermission.restoreallrolepermission');
 });
 
 Route::get('/addform',function(){
-    return view('rolepermissionform/add');
+    
+    $show  = permission::select('permission','id')
+    ->orderBy('permission')
+    ->get();
+    // echo $show;
+ $destination = permission::select('permission','id')->where('permission','like','user%')->get();
+ $final =  $destination->groupBy('permission','id');
+ echo $final;
+ echo "<br>";
+ foreach($final->chunk(2) as $chunk)
+ echo $chunk;
+
+    // $userloan = Arr::pluck($show, 'permission.user');
+    // echo $userloan;
+    
+
+   // dd(Arr::flatten($view));
+    return view('rolepermissionform/add',['user'=>$show]);
 });
 
 Route::controller(addrolepermissionController::class)->group(function () {

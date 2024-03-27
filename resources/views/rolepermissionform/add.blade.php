@@ -12,6 +12,7 @@
         <input type="text" name="role" id="role">
 
         <br><br>
+        <div>
         <table border='1'>
             
                 <td>permission name</td>
@@ -21,22 +22,30 @@
                 <td>delete</td>
            <tbody>
             <tr>
-                <td>Loan:</td>
-                <td><input type="checkbox" name="permission[]" id="permission" value="create_loan"></td>
-                <td><input type="checkbox" name="permission[]" id="permission" value="edit_loan"></td>
-                <td><input type="checkbox" name="permission[]" id="permission" value="update_loan"></td>
-                <td><input type="checkbox" name="permission[]" id="permission" value="delete_loan"></td>
+              
+           
+                <!-- <td>Loan:</td>
+                <td><input type="checkbox" name="create_loan" id="permission" value=""> </td>
+                <td><input type="checkbox" name="edit_loan" id="permission" ></td>
+                <td><input type="checkbox" name="update_loan" id="permission" ></td>
+                <td><input type="checkbox" name="delete_loan" id="permission" ></td> -->
+         
             </tr>
-            <!-- <tr>
-                <td>User:</td>
-                <td><input type="checkbox" name="permission" id="permission" value="create_user"></td>
-                <td><input type="checkbox" name="permission" id="permission" value="edit_user"></td>
-                <td><input type="checkbox" name="permission" id="permission" value="update_user"></td>
-                <td><input type="checkbox" name="permission" id="permission" value="delete_user"></td>
-            </tr> -->
+
+            
+            <tr>
+            <td>User:</td>
+            @foreach($user as $chunk)
+            <input type="checkbox" name="permission[]" id="permission" value="{{$chunk->id}}">
+                {{$chunk->permission}}
+                <!-- <td>{{$chunk->permission}}</td> -->
+            @endforeach
+            </tr>
+           
            </tbody>
         </table>
 
+        </div>
 
         <!-- <label for="">User :</label>
         <input type="checkbox" name="create user" id="create user" value="create_user">
@@ -46,21 +55,11 @@
         <input type="checkbox" name="update user" id="update user" value="delete user">
         <label for="">Update</label></input>
         <input type="checkbox" name="delete user" id="delete user" value="update user">
-        <label for="">delete</label></input>
-
-        <br><br>
-        <label for="">Loan :</label>
-        <input type="checkbox" name="create user" id="create user">
-        <label for="">create</label></input>
-        <input type="checkbox" name="edit user" id="edit user">
-        <label for="">Edit</label></input>
-        <input type="checkbox" name="update user" id="update user">
-        <label for="">Update</label></input>
-        <input type="checkbox" name="delete user" id="delete user">
         <label for="">delete</label></input> -->
-
-      <button type="submit" name="submit" id="submit">submit</button>
-
+        <div>
+            <br>
+        <button type="submit" name="submit" id="submit">submit</button>
+        </div>
     </form>
 </body>
 </html>

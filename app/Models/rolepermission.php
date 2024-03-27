@@ -16,7 +16,7 @@ class rolepermission extends Model
     use HasFactory,SoftDeletes;
     //use SoftDeletes;
     public $table = 'rolepermission';
-
+    protected $fillable = ['role_id','permission_id'];
     protected $dates  = ['deleted_at'];
     public function permission()
     {
