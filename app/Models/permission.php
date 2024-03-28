@@ -20,4 +20,10 @@ class permission extends Model
         //return $this->belongsTo('userrolemapping','role_id');
         return $this->hasMany(rolepermission::class,'permission_id');
     }
+
+    // public function addrolepermission(): BelongsTo
+    // {
+        
+    //     return $this->hasMany(rolepermission::class,'permission_id');
+    // }
 }

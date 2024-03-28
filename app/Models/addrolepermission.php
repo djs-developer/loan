@@ -28,4 +28,6 @@ class addrolepermission extends Model
     {
        return $this->belongsTo(rolepermission::class);
     }
+
+    
 }

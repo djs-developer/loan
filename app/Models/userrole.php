@@ -34,5 +34,9 @@ class userrole extends Model
         return $this->hasMany(rolepermission::class,'role_id');
     }
 
+    // public function addrolepermission(): BelongsTo
+    // {
+    //     return $this->hasMany(rolepermission::class,'role_id');
+    // }
     
 }

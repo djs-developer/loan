@@ -208,8 +208,8 @@ Route::get('/addform',function(){
 
 Route::controller(addrolepermissionController::class)->group(function () {
     Route::post('/addrolepermissionform', 'create');
-    // Route::get('/viewrolepermission','index');
-    // Route::delete('/deleterolepermission/{id}','destroy');
-    // Route::get('/editrolepermission/{id}','edit');
+    Route::get('/viewrolepermissionform','index');
+    // Route::delete('/deleterolepermissionform/{id}','destroy');
+    Route::get('/editrolepermissionform/{id}','edit');
     // Route::post('/updaterolepermission/{id}','update');
 });

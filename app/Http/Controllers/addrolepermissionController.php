@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\userrole;
 use App\Models\permission;
 use App\models\rolepermission;
+use App\models\addrolepermission;
 use DB;
-
+use Illuminate\Support\Arr;
 class addrolepermissionController extends Controller
 {
     /**
@@ -17,7 +18,13 @@ class addrolepermissionController extends Controller
      */
     public function index()
     {
-        //
+        $view = rolepermission::all();
+
+        // if($request->get('status') == 'archived') {
+        //     $view = rolepermission::onlyTrashed()->get();
+        // }
+
+        return view('rolepermissionform.show', compact('view'));
     }
 
     /**
@@ -75,7 +82,22 @@ class addrolepermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rolepermission = rolepermission::select('permission_id','role_id')
+        ->where('role_id',$id)
+        ->pluck('permission_id');
+        //->get();
+        $userrole = userrole::select()
+        ->where('id',$id)
+        ->get();
+        $permission =permission::all();
+        $rolepermission = rolepermission::select()->where('role_id',$id)->pluck('permission_id')->toArray();
+        
+
+        $rolePermissions = rolepermission::select()->where('role_id',$id)->get();
+    
+        $all =  $rolePermissions->pluck('role_id', 'permission_id')->toArray();
+       return view('rolepermissionform.edit',['rolepermissions'=> $rolePermissions,'rolepermission'=> $rolepermission,'allpermission'=>$permission,'rolename'=>$userrole]);
+       
     }
 
     /**
