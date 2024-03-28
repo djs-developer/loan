@@ -17,30 +17,41 @@
             
                 <td>permission name</td>
                 <td>create</td>
-                <td>edit </td>
+                <td>delete </td>
+                <td>edit</td>
                 <td>update</td>
-                <td>delete</td>
            <tbody>
+          
             <tr>
-              
-           
-                <!-- <td>Loan:</td>
-                <td><input type="checkbox" name="create_loan" id="permission" value=""> </td>
-                <td><input type="checkbox" name="edit_loan" id="permission" ></td>
-                <td><input type="checkbox" name="update_loan" id="permission" ></td>
-                <td><input type="checkbox" name="delete_loan" id="permission" ></td> -->
-         
-            </tr>
-
-            
-            <tr>
-            <td>User:</td>
-            @foreach($user as $chunk)
-            <input type="checkbox" name="permission[]" id="permission" value="{{$chunk->id}}">
-                {{$chunk->permission}}
-                <!-- <td>{{$chunk->permission}}</td> -->
+            <td>Loan:</td>
+            @foreach($allpermission as $loan)
+            @if(Str_contains($loan->permission, 'loan'))
+                <td><input type="checkbox" name="permission[]" id="permission" value="{{$loan->id}}">{{$loan->permission}} </td>    
+            @endif
             @endforeach
             </tr>
+           
+            <tr>
+            <td>User:</td>
+            @foreach($allpermission as $user)
+            @if(Str_contains($user->permission, 'user'))
+                <td><input type="checkbox" name="permission[]" id="permission" value="{{$user->id}}">{{$user->permission}} </td>    
+            @endif
+            @endforeach
+            </tr>
+            
+            
+            <!-- <tr>
+            <td>User:</td>
+            @foreach($allpermission as $chunk)
+            @if(Str_contains($chunk->permission, 'user')) 
+          
+            <input type="checkbox" name="permission[]" id="permission" value="{{$chunk->id}}">
+                {{$chunk->permission}}
+               
+            @endif
+            @endforeach
+            </tr> -->
            
            </tbody>
         </table>

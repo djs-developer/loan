@@ -30,32 +30,10 @@ class addrolepermissionController extends Controller
         $addrole = userrole::create([
            "role"=>$request->role,
         ]);
-//dd($addrole);
-        //this is work when you have same filed name with lots of filed
- //       foreach($request->input('permission') as $key => $value) {
-//          permission::create([
-//              'permission' => $request->input('permission')[$key],
-                // etc
-//            ]);
- //       }
 
-        //don't konw working or not but for same name with different filed 
-        // $models->transpose()->map(function($model) {
-
-        //     permission::insert([
-        //         'permission' => $model['permission']
-        //     ]);
-        // });
-       // $permission = $request->input('permissions');
-
-       //@isset($addrole);
-       
-      
-      
-        
-        $permission = $request->input('permission');
-       
     
+        $permission = $request->input('permission');
+      
         foreach ($request->input('permission') as $key => $value) {
             rolepermission::create([
                 'role_id' => $addrole->id,
@@ -63,11 +41,7 @@ class addrolepermissionController extends Controller
                  
             ]);
         }
-        // $addpermission = permission::create([
-        //     'permission' =>implode(',', request('permission')),
-        //    // 'permission' => json_encode(request('permission')), // implode(',', request('hobbies'))
-        // ]);
-
+     
         return "done";
     }
 

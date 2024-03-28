@@ -65,5 +65,9 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <label for="">add role-permission form</label>
+        <a href="/addform">link</a>
+    </div>
 </body>
 </html>

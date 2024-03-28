@@ -197,23 +197,13 @@ Route::controller(rolepermissionController::class)->group(function () {
 
 Route::get('/addform',function(){
     
-    $show  = permission::select('permission','id')
+    $allpermission  = permission::select('permission','id')
     ->orderBy('permission')
     ->get();
-    // echo $show;
- $destination = permission::select('permission','id')->where('permission','like','user%')->get();
- $final =  $destination->groupBy('permission','id');
- echo $final;
- echo "<br>";
- foreach($final->chunk(2) as $chunk)
- echo $chunk;
+//  $destination = permission::select('permission','id')->where('permission','like','user%')->get();
+//  $final =  $destination->groupBy('permission','id');
 
-    // $userloan = Arr::pluck($show, 'permission.user');
-    // echo $userloan;
-    
-
-   // dd(Arr::flatten($view));
-    return view('rolepermissionform/add',['user'=>$show]);
+    return view('rolepermissionform/add',['allpermission'=>$allpermission]);
 });
 
 Route::controller(addrolepermissionController::class)->group(function () {
